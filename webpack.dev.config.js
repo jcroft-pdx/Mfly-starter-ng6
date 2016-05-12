@@ -4,11 +4,17 @@ var config  = require('./webpack.config');
 
 config.output = {
   filename: '[name].bundle.js',
-  publicPath: '/',
+  publicPath: '',
   path: path.resolve(__dirname, 'client')
 };
 
 config.plugins = config.plugins.concat([
+
+  new webpack.DefinePlugin({
+    ANGULAR_DEBUG: true,
+    DEBUG: true,
+    SHOW_ERRORS: true
+  }),
 
   // Adds webpack HMR support. It act's like livereload,
   // reloading page after webpack rebuilt modules.

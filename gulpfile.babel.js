@@ -11,11 +11,21 @@ import yargs    from 'yargs';
 import lodash   from 'lodash';
 import gutil    from 'gulp-util';
 import serve    from 'browser-sync';
+import mfly     from 'mfly-interactive';
+import shell    from 'gulp-shell';
 import del      from 'del';
-import webpackDevMiddelware from 'webpack-dev-middleware';
-import webpachHotMiddelware from 'webpack-hot-middleware';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 import colorsSupported      from 'supports-color';
 import historyApiFallback   from 'connect-history-api-fallback';
+
+// The relative url you would like the serve command to automatically open to.
+// Should not contain the FQDN portion and should start with a '/'.
+let serveOpen = '';
+
+// The fully formed URL of an interactive on viewer.mediafly.com that should be
+// used as a proxy into the cloud based filesystem.
+let mflyProxy = '';
 
 let root = 'client';
 
@@ -31,7 +41,7 @@ let resolveToComponents = (glob = '') => {
 // map of all paths
 let paths = {
   js: resolveToComponents('**/*!(.spec.js).js'), // exclude spec files
-  styl: resolveToApp('**/*.styl'), // stylesheets
+  scss: resolveToApp('**/*.scss'), // stylesheets
   html: [
     resolveToApp('**/*.html'),
     path.join(root, 'index.html')
@@ -41,13 +51,17 @@ let paths = {
     path.join(__dirname, root, 'app/app.js')
   ],
   output: root,
-  blankTemplates: path.join(__dirname, 'generator', 'component/**/*.**'),
+  blankTemplates: {
+    'component': path.join(__dirname, 'generator', 'component/**/*.**'),
+    'directive': path.join(__dirname, 'generator', 'directive/**/*.**')
+  },
   dest: path.join(__dirname, 'dist')
 };
 
 // use webpack.config.js to build modules
-gulp.task('webpack', ['clean'], (cb) => {
-  const config = require('./webpack.dist.config');
+gulp.task('build', ['clean'], (cb) => {
+  const target = yargs.argv.target || 'dev';
+  const config = require('./webpack.' + target + '.config');
   config.entry.app = paths.entry;
 
   webpack(config, (err, stats) => {
@@ -60,6 +74,8 @@ gulp.task('webpack', ['clean'], (cb) => {
       chunks: false,
       errorDetails: true
     }));
+
+    exec('cd dist;zip -9 -r --exclude=*.htaccess --exclude=*.svn* --exclude=*.DS_Store* --exclude=*.py* --exclude=*.pyc* admin-app_build.zip . -x *.png *.gif *.jpg; zip -0 -r admin-app_build.zip . -i *.png *.gif *.jpg;mv admin-app_build.zip ' + target + '_$(date +%Y-%m-%d_%H%M).zip');
 
     cb();
   });
@@ -78,19 +94,23 @@ gulp.task('serve', () => {
 
   serve({
     port: process.env.PORT || 3000,
-    open: false,
+    open: 'local',
+    startPath: serveOpen,
     server: {baseDir: root},
     middleware: [
+      webpackHotMiddleware(compiler),
+      mfly({
+        url: mflyProxy
+      }),
       historyApiFallback(),
-      webpackDevMiddelware(compiler, {
+      webpackDevMiddleware(compiler, {
         stats: {
           colors: colorsSupported,
           chunks: false,
           modules: false
         },
         publicPath: config.output.publicPath
-      }),
-      webpachHotMiddelware(compiler)
+      })
     ]
   });
 });
@@ -105,7 +125,26 @@ gulp.task('component', () => {
   const parentPath = yargs.argv.parent || '';
   const destPath = path.join(resolveToComponents(), parentPath, name);
 
-  return gulp.src(paths.blankTemplates)
+  return gulp.src(paths.blankTemplates['component'])
+    .pipe(template({
+      name: name,
+      upCaseName: cap(name)
+    }))
+    .pipe(rename((path) => {
+      path.basename = path.basename.replace('temp', name);
+    }))
+    .pipe(gulp.dest(destPath));
+});
+
+gulp.task('directive', () => {
+  const cap = (val) => {
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  };
+  const name = yargs.argv.name;
+  const parentPath = yargs.argv.parent || '';
+  const destPath = path.join(resolveToComponents(), parentPath, name);
+
+  return gulp.src(paths.blankTemplates['directive'])
     .pipe(template({
       name: name,
       upCaseName: cap(name)

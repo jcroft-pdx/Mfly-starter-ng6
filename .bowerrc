@@ -1,0 +1,10 @@
+{
+  "ignoredDependencies": [
+    "jquery",
+    "angular",
+    "hammerjs",
+    "bootstrap",
+    "bootstrap-sass",
+    "bootstrap-sass-official"
+  ]
+}

@@ -10,6 +10,12 @@ config.output = {
 
 config.plugins = config.plugins.concat([
 
+  new webpack.DefinePlugin({
+    ANGULAR_DEBUG: false,
+    DEBUG: false,
+    SHOW_ERRORS: false
+  }),
+
   // Reduces bundles total size
   new webpack.optimize.UglifyJsPlugin({
     mangle: {

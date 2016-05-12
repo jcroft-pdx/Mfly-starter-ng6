@@ -2,6 +2,8 @@
 .tmp
 .git
 node_modules
+bower_components
 .settings
 *.log
 dist/
+.idea

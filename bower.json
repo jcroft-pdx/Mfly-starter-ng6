@@ -1,0 +1,19 @@
+{
+  "name": "",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Jay Mallison"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "mfly-commands": "^1.11.2"
+  }
+}
