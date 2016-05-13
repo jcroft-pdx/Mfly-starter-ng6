@@ -1,11 +1,6 @@
 <p align="center">
-  <a href="https://angularclass.com" target="_blank">
-    <img src="https://cloud.githubusercontent.com/assets/1016365/9864650/93a5660a-5b00-11e5-8716-a0d538d12913.png" alt="ng6-starter" width="480px;" >
-  </a>
-  <!-- old img url: http://res.cloudinary.com/angularclass/image/upload/v1431802814/ng6_vrmd60.png -->
+  <img src="https://cloud.githubusercontent.com/assets/1016365/9864650/93a5660a-5b00-11e5-8716-a0d538d12913.png" alt="ng6-starter" width="480px;" >
 </p>
-
-# NG6 [![Join Slack](https://img.shields.io/badge/slack-join-brightgreen.svg)](https://angularclass.com/slack-join) [![Join the chat at https://gitter.im/angularclass/NG6-starter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/angularclass/NG6-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 > The de facto starter repo for building scalable apps with [Angular](https://angularjs.org), [ES6](https://git.io/es6features), and [Webpack](http://webpack.github.io/)
 
@@ -15,11 +10,8 @@ This repo serves as a minimal starter for those looking to get up-and-running wi
 * A ready-to-go build system for working with [ES6](https://git.io/es6features)
 * Tasks for generating additional boilerplate Angular components
 * A full testing system in place
-* [Stylus](https://learnboost.github.io/stylus/) support
+* SASS support
 
-**Check out the [JSPM version](https://github.com/angularclass/NG6-starter/tree/jspm)--an alternative to Webpack as an ES6 build system.**
-
-> If you're looking for a preliminary [Angular 2](https://angular.io/) build, please use the [angular2-webpack-starter](https://github.com/angularclass/angular2-webpack-starter).
 ___
 
 # Table of Contents
@@ -33,7 +25,7 @@ ___
     * [Running the App](#running-the-app)
         * [Gulp Tasks](#gulp-tasks)
         * [Testing](#testing)
-		* [Generating Components](#generating-components)		
+		* [Generating Components](#generating-components)
 * [Starter Kit Support and Questions](#starter-kit-support-and-questions)
 
 # Walkthrough
@@ -71,7 +63,7 @@ client
 ⋅⋅⋅⋅⋅⋅⋅⋅home.js * home entry file (routes, configurations, and declarations occur here)
 ⋅⋅⋅⋅⋅⋅⋅⋅home.component.js * home "directive"
 ⋅⋅⋅⋅⋅⋅⋅⋅home.controller.js * home controller
-⋅⋅⋅⋅⋅⋅⋅⋅home.styl * home styles
+⋅⋅⋅⋅⋅⋅⋅⋅home.scss * home styles
 ⋅⋅⋅⋅⋅⋅⋅⋅home.html * home template
 ⋅⋅⋅⋅⋅⋅⋅⋅home.spec.js * home specs (for entry, component, and controller)
 ```
@@ -89,7 +81,7 @@ To run tests, type `npm test` or `karma start` in the terminal. Read more about 
 ## Dependencies
 Tools needed to run this app:
 * `node` and `npm`
-Once you have these, install the following as globals:  
+Once you have these, install the following as globals:
 `npm install -g gulp karma karma-cli webpack`
 
 ## Installing
@@ -100,7 +92,7 @@ Once you have these, install the following as globals:
 
 ## Running the App
 NG6 uses Gulp to build and launch the development environment. After you have installed all dependencies, you may run the app. Running `gulp` will bundle the app with `webpack`, launch a development server, and watch all files. The port will be displayed in the terminal.
- 
+
 ### Gulp Tasks
 Here's a list of available tasks:
 * `webpack`
@@ -113,7 +105,7 @@ Here's a list of available tasks:
 	* runs `serve`.
 * `component`
   * scaffolds a new Angular component. [Read below](#generating-components) for usage details.
-  
+
 ### Testing
 To run the tests, run `npm test` or `karma start`.
 
@@ -136,7 +128,7 @@ Following a consistent directory structure between components offers us the cert
 ⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.js
 ⋅⋅⋅⋅⋅⋅⋅⋅componentName.controller.js
 ⋅⋅⋅⋅⋅⋅⋅⋅componentName.html
-⋅⋅⋅⋅⋅⋅⋅⋅componentName.styl // scoped to affect only its own template
+⋅⋅⋅⋅⋅⋅⋅⋅componentName.scss // scoped to affect only its own template
 ⋅⋅⋅⋅⋅⋅⋅⋅componentName.spec.js // contains passing demonstration tests
 ```
 
@@ -147,25 +139,10 @@ The parameter following the `--name` flag is the name of the component to be cre
 
 The component will be created, by default, inside `client/app/components`. To change this, apply the `--parent` flag, followed by a path relative to `client/app/components/`.
 
-For example, running `gulp component --name signup --parent auth` will create a `signup` component at `client/app/components/auth/signup`.  
+For example, running `gulp component --name signup --parent auth` will create a `signup` component at `client/app/components/auth/signup`.
 
-Running `gulp component --name footer --parent ../common` creates a `footer` component at `client/app/common/footer`.  
+Running `gulp component --name footer --parent ../common` creates a `footer` component at `client/app/common/footer`.
 
 Because the argument to `--name` applies to the folder name **and** the actual component name, make sure to camelcase the component names.
 
-# Starter Kit Support and Questions
-> Contact us, anytime, regarding anything about this project.
 
-* [Gitter: angularclass/NG6-starter](https://gitter.im/angularclass/NG6-starter)
-* [Twitter: @AngularClass](https://twitter.com/AngularClass)
-
-___
-
-enjoy — **AngularClass** 
-
-<br><br>
-
-[![AngularClass](https://cloud.githubusercontent.com/assets/1016365/9863770/cb0620fc-5af7-11e5-89df-d4b0b2cdfc43.png  "Angular Class")](https://angularclass.com)
-##[AngularClass](https://angularclass.com)
-> Learn AngularJS, Angular 2, and Modern Web Development from the best.
-> Looking for corporate Angular training, want to host us, or Angular consulting? scott@angularclass.com
