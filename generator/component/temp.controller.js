@@ -1,7 +1,5 @@
-class <%= upCaseName %>Controller {
+export default class {
   constructor() {
     this.name = '<%= name %>';
   }
 }
-
-export default <%= upCaseName %>Controller;

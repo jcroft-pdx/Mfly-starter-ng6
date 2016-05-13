@@ -99,9 +99,9 @@ gulp.task('serve', () => {
     server: {baseDir: root},
     middleware: [
       webpackHotMiddleware(compiler),
-      mfly({
-        url: mflyProxy
-      }),
+      // mfly({
+      //   url: mflyProxy
+      // }),
       historyApiFallback(),
       webpackDevMiddleware(compiler, {
         stats: {

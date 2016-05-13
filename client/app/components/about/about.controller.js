@@ -1,7 +1,6 @@
-class AboutController {
+export default class {
   constructor() {
     this.name = 'about';
   }
 }
 
-export default AboutController;

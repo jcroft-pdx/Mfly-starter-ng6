@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "description": "",
+  "name": "ng6-starter",
+  "description": "Starter for Angular + ES6 + Webpack",
   "main": "index.js",
   "authors": [
     "Jay Mallison"

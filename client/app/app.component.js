@@ -1,9 +1,6 @@
 import template from './app.html';
-import './app.styl';
+import './app.scss';
 
-let appComponent = {
+export default {
   template,
-  restrict: 'E'
 };
-
-export default appComponent;

@@ -1,4 +1,4 @@
-let UserFactory = function () {
+export default function () {
   const user = {};
 
   let getUser = () => {
@@ -6,10 +6,8 @@ let UserFactory = function () {
   };
 
   let isSignedIn = () => {
-    return user.isSignedIn; 
+    return user.isSignedIn;
   };
 
   return { getUser, isSignedIn };
 };
-
-export default UserFactory;

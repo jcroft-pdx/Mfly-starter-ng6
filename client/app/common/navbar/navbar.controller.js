@@ -1,7 +1,5 @@
-class NavbarController {
+export default class {
   constructor() {
     this.name = 'navbar';
   }
 }
-
-export default NavbarController;
