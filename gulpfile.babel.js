@@ -82,7 +82,17 @@ gulp.task('build', ['clean'], (cb) => {
 });
 
 gulp.task('serve', () => {
-  const config = require('./webpack.dev.config');
+  let mflyMiddleware = (req, res, next) => { return next(); };
+  let config = require('./webpack.dev.config');
+
+  if (mflyProxy !== '') {
+    mflyMiddleware = mfly({
+      url: mflyProxy
+    });
+
+    config = require('./webpack.proxy.config');
+  }
+
   config.entry.app = [
     // this modules required to make HRM working
     // it responsible for all this webpack magic
@@ -99,9 +109,7 @@ gulp.task('serve', () => {
     server: {baseDir: root},
     middleware: [
       webpackHotMiddleware(compiler),
-      // mfly({
-      //   url: mflyProxy
-      // }),
+      mflyMiddleware,
       historyApiFallback(),
       webpackDevMiddleware(compiler, {
         stats: {

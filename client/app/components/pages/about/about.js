@@ -15,4 +15,5 @@ export default angular.module('about', [
     });
 })
 
-.component('about', aboutComponent);
+.component('about', aboutComponent)
+.name;

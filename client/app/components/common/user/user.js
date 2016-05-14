@@ -3,4 +3,5 @@ import UserFactory from './user.factory';
 
 export default angular.module('user', [])
 
-.factory('User', UserFactory);
+.factory('User', UserFactory)
+.name;

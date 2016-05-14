@@ -18,4 +18,5 @@ export default angular.module('home', [
     });
 })
 
-.component('home', homeComponent);
+.component('home', homeComponent)
+.name;

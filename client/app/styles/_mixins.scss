@@ -1,0 +1,19 @@
+// Mixins
+
+// Make divs scrollable
+@mixin scrollable () {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+// Add ellipsis to truncated text
+@mixin textOverflow () {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Force GPU acceleration
+@mixin accelerate () {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}

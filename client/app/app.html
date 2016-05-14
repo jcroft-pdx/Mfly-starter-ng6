@@ -1,4 +1,12 @@
-<!-- Place all UI elements intended to be present across all routes in this file -->
-<div class="app">
-  <div ui-view></div>
+
+<div class="app-ready" ng-if="vm.bootstrapped">
+  <div class="app viewport" id="viewport">
+    <div ui-view></div>
+  </div>
+  <div class="orientation-warning" ng-if="::vm._appService.deviceType !== 'web'">
+    <p class="orientation-message">This application is designed to work in landscape mode.<br />Please rotate your device.</p>
+  </div>
+</div>
+<div class="app-loading" ng-if="vm.showLoader">
+  <loader></loader>
 </div>

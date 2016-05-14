@@ -13,7 +13,7 @@ config.plugins = config.plugins.concat([
   new webpack.DefinePlugin({
     ANGULAR_DEBUG: true,
     DEBUG: true,
-    MFLY_PROXY: false,
+    MFLY_PROXY: true,
     SHOW_ERRORS: true
   }),
 
