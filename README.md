@@ -26,7 +26,6 @@ ___
         * [Gulp Tasks](#gulp-tasks)
         * [Testing](#testing)
     * [Generating Components](#generating-components)
-* [Starter Kit Support and Questions](#starter-kit-support-and-questions)
 
 # Walkthrough
 ## Build System
