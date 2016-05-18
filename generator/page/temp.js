@@ -6,5 +6,15 @@ export default angular.module('<%= name %>', [
   uiRouter
 ])
 
+.config(($stateProvider) => {
+  "ngInject";
+
+  $stateProvider
+    .state('<%= dashCaseName %>', {
+      url: '/<%= dashCaseName %>',
+      template: '<<%= dashCaseName %>></<%= dashCaseName %>>'
+    });
+})
+
 .component('<%= name %>', <%= name %>Component)
 .name;

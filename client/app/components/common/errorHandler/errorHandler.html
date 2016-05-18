@@ -1,5 +1,3 @@
-<div class="page-inner error-handler" ng-if="vm.errorMessage">
-  <div class="container wide">
-    <div ng-repeat="message in vm.errorMessages" ng-bind-html="message.reason"></div>
-  </div>
+<div class="error-handler" ng-if="vm.errorMessage">
+  <div class="error-message" ng-repeat="message in vm.errorMessages" ng-bind-html="message.reason"></div>
 </div>

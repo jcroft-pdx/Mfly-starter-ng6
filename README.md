@@ -25,7 +25,7 @@ ___
     * [Running the App](#running-the-app)
         * [Gulp Tasks](#gulp-tasks)
         * [Testing](#testing)
-		* [Generating Components](#generating-components)
+    * [Generating Components](#generating-components)
 * [Starter Kit Support and Questions](#starter-kit-support-and-questions)
 
 # Walkthrough
@@ -54,18 +54,28 @@ We use a componentized approach with NG6. This will be the eventual standard (an
 ```
 client
 ⋅⋅app/
+⋅⋅⋅⋅app.component.js * app component definition
+⋅⋅⋅⋅app.config.js * global CONFIG service
+⋅⋅⋅⋅app.controller.js * central app controller for app component
 ⋅⋅⋅⋅app.js * app entry file
 ⋅⋅⋅⋅app.html * app template
-⋅⋅⋅⋅common/ * functionality pertinent to several components propagate into this directory
-⋅⋅⋅⋅components/ * where components live
+⋅⋅⋅⋅app.scss * general app styles, central SASS includes
+⋅⋅⋅⋅app.service.js * baseline Angular app service
+⋅⋅⋅⋅assets * for static assets like images and fonts
+⋅⋅⋅⋅classes * a place for es6 interfaces you might want to extend in your controller or service classes
+⋅⋅⋅⋅components/ * functionality pertinent to several components propagate into this directory
 ⋅⋅⋅⋅⋅⋅components.js * components entry file
-⋅⋅⋅⋅⋅⋅home/ * home component
-⋅⋅⋅⋅⋅⋅⋅⋅home.js * home entry file (routes, configurations, and declarations occur here)
-⋅⋅⋅⋅⋅⋅⋅⋅home.component.js * home "directive"
-⋅⋅⋅⋅⋅⋅⋅⋅home.controller.js * home controller
-⋅⋅⋅⋅⋅⋅⋅⋅home.scss * home styles
-⋅⋅⋅⋅⋅⋅⋅⋅home.html * home template
-⋅⋅⋅⋅⋅⋅⋅⋅home.spec.js * home specs (for entry, component, and controller)
+⋅⋅⋅⋅⋅⋅common/ * where non page, reused components live
+⋅⋅⋅⋅⋅⋅pages/ * where page components live
+⋅⋅⋅⋅⋅⋅⋅⋅home/ * home component
+⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅home.js * home entry file (routes, configurations, and declarations occur here)
+⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅home.component.js * home "directive"
+⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅home.controller.js * home controller
+⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅home.scss * home styles
+⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅home.html * home template
+⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅home.spec.js * home specs (for entry, component, and controller)
+⋅⋅⋅⋅directives/ * where angular directives live
+⋅⋅⋅⋅styles/ * a place for global stylesheets.
 ```
 
 ## Testing Setup
@@ -95,16 +105,20 @@ NG6 uses Gulp to build and launch the development environment. After you have in
 
 ### Gulp Tasks
 Here's a list of available tasks:
-* `webpack`
-  * runs Webpack, which will transpile, concatenate, and compress (collectively, "bundle") all assets and modules into `dist/bundle.js`. It also prepares `index.html` to be used as application entry point, links assets and created dist version of our application.
-* `serve`
-  * starts a dev server via `webpack-dev-server`, serving the client folder.
-* `watch`
-  * alias of `serve`
-* `default` (which is the default task that runs when typing `gulp` without providing an argument)
-	* runs `serve`.
-* `component`
-  * scaffolds a new Angular component. [Read below](#generating-components) for usage details.
+ - `webpack`
+ - `build`
+ --- runs Webpack, which will transpile, concatenate, and compress (collectively, "bundle") all assets and modules into `dist/bundle.js`. It also prepares `index.html` to be used as application entry point, links assets and created dist version of our application. Takes an argument `--target` which can be any one of `dev|qa|prod` which will pull in different configuration based on the target environment for testing a compiled version of the application.
+ - `serve`
+ --- starts a dev server via `webpack-dev-server`, serving the client folder.
+ - `watch`
+ --- alias of `serve`
+ - `default` (which is the default task that runs when typing `gulp` without providing an argument)
+--- runs `serve`.
+ - `component`
+ - `common`
+ - `page`
+ - `directive`
+ --- scaffolds a new Angular component, page or directive. [Read below](#generating-components) for usage details.
 
 ### Testing
 To run the tests, run `npm test` or `karma start`.
@@ -114,35 +128,30 @@ To run the tests, run `npm test` or `karma start`.
 Be sure to define your `*.spec.js` files within their corresponding component directory. You must name the spec file like so, `[name].spec.js`. If you don't want to use the `.spec.js` suffix, you must change the `regex` in `spec.bundle.js` to look for whatever file(s) you want.
 `Mocha` is the testing suite and `Chai` is the assertion library. If you would like to change this, see `karma.conf.js`.
 
-### Examples
-
-It's always easier to learn something if you have an examples. Here is a list of repos which based on this starter:
-
- - [TodoMVC Example App](https://github.com/AngularClass/NG6-todomvc-starter)
-
 ### Generating Components
-Following a consistent directory structure between components offers us the certainty of predictability. We can take advantage of this certainty by creating a gulp task to automate the "instantiation" of our components. The component boilerplate task generates this:
-```
-⋅⋅⋅⋅⋅⋅componentName/
-⋅⋅⋅⋅⋅⋅⋅⋅componentName.js // entry file where all its dependencies load
-⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.js
-⋅⋅⋅⋅⋅⋅⋅⋅componentName.controller.js
-⋅⋅⋅⋅⋅⋅⋅⋅componentName.html
-⋅⋅⋅⋅⋅⋅⋅⋅componentName.scss // scoped to affect only its own template
-⋅⋅⋅⋅⋅⋅⋅⋅componentName.spec.js // contains passing demonstration tests
-```
+Following a consistent directory structure between components offers us the certainty of predictability. We can take advantage of this certainty by creating a gulp task to automate the "instantiation" of our components.
 
-You may, of course, create these files manually, every time a new module is needed, but that gets quickly tedious.
-To generate a component, run `gulp component --name componentName`.
+There are three supported boilerplate generators in this repo:
 
-The parameter following the `--name` flag is the name of the component to be created. Ensure that it is unique or it will overwrite the preexisting identically-named component.
+`gulp component --name myCommonlyUsedComponent`
+--- For components that are reused throughout the application as building blocks. Also can be used as `gulp common` (to match the name of the folder the output goes into)
 
-The component will be created, by default, inside `client/app/components`. To change this, apply the `--parent` flag, followed by a path relative to `client/app/components/`.
+`gulp page --name myPageName`
+--- For components that are routable pages
 
-For example, running `gulp component --name signup --parent auth` will create a `signup` component at `client/app/components/auth/signup`.
+`gulp directive --name myAttributeName`
+--- For generating an Angular attribute based directive
 
-Running `gulp component --name footer --parent ../common` creates a `footer` component at `client/app/common/footer`.
+These boilerplate generators build differing output based on which one you use and they each place their output in a corresponding folder:
 
-Because the argument to `--name` applies to the folder name **and** the actual component name, make sure to camelcase the component names.
+* component|common - `client/app/components/common`
+* page - `client/app/components/pages`
+* directive - `client/app/directives`
 
+You can override the containing folder for the boilerplate pod by specifying `--parent` when running the generator, but this is not recommended.
 
+For example, running `gulp component --name signup --parent auth` will create a `signup` component at `client/app/components/common/auth/signup`.
+
+Because the argument to `--name` applies to the folder name **and** the actual component name, make sure to camelCase the component names.
+
+Any components you add will need to be made available to Angular by editing the corresponding .js file at the root of each container folder -- by importing the component and adding it to the angular.module export.

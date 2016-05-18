@@ -1,4 +1,5 @@
 import angular from 'angular';
+import ngSanitize from 'angular-sanitize';
 
 // External Libraries.
 import FastClick from 'fastclick';
@@ -7,8 +8,9 @@ import uiRouter from 'angular-ui-router';
 // External CSS.
 import 'normalize.css';
 
-// Application Components.
+// Application Pieces.
 import Components from './components/components';
+import Directives from './directives/directives';
 
 // This Component.
 import AppComponent from './app.component';
@@ -19,8 +21,10 @@ import Config from './app.config';
 import Utility from './classes/utility';
 
 angular.module('app', [
+    ngSanitize,
     uiRouter,
-    Components
+    Components,
+    Directives
   ])
   .config(($compileProvider, $provide) => {
     "ngInject";

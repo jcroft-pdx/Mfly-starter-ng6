@@ -34,13 +34,21 @@ let resolveToApp = (glob = '') => {
   return path.join(root, 'app', glob); // app/{glob}
 };
 
-let resolveToComponents = (glob = '') => {
-  return path.join(root, 'app/components', glob); // app/components/{glob}
+let resolveToCommon = (glob = '') => {
+  return path.join(root, 'app/components/common', glob); // app/components/{glob}
+};
+
+let resolveToPages = (glob = '') => {
+  return path.join(root, 'app/components/pages', glob); // app/components/{glob}
+};
+
+let resolveToDirectives = (glob = '') => {
+  return path.join(root, 'app/directives', glob); // app/components/{glob}
 };
 
 // map of all paths
 let paths = {
-  js: resolveToComponents('**/*!(.spec.js).js'), // exclude spec files
+  js: resolveToApp('**/*!(.spec.js).js'), // exclude spec files
   scss: resolveToApp('**/*.scss'), // stylesheets
   html: [
     resolveToApp('**/*.html'),
@@ -52,11 +60,14 @@ let paths = {
   ],
   output: root,
   blankTemplates: {
-    'component': path.join(__dirname, 'generator', 'component/**/*.**'),
+    'common': path.join(__dirname, 'generator', 'common/**/*.**'),
+    'page': path.join(__dirname, 'generator', 'page/**/*.**'),
     'directive': path.join(__dirname, 'generator', 'directive/**/*.**')
   },
   dest: path.join(__dirname, 'dist')
 };
+
+gulp.task('webpack', ['build']);
 
 // use webpack.config.js to build modules
 gulp.task('build', ['clean'], (cb) => {
@@ -75,7 +86,7 @@ gulp.task('build', ['clean'], (cb) => {
       errorDetails: true
     }));
 
-    exec('cd dist;zip -9 -r --exclude=*.htaccess --exclude=*.svn* --exclude=*.DS_Store* --exclude=*.py* --exclude=*.pyc* admin-app_build.zip . -x *.png *.gif *.jpg; zip -0 -r admin-app_build.zip . -i *.png *.gif *.jpg;mv admin-app_build.zip ' + target + '_$(date +%Y-%m-%d_%H%M).zip');
+    exec('cd dist;zip -9 -r --exclude=*.htaccess --exclude=*.svn* --exclude=*.DS_Store* --exclude=*.py* --exclude=*.pyc* admin-app_build.zip . -x *.png *.gif *.jpg; zip -0 -r admin-app_build.zip . -i *.png *.gif *.jpg;mv admin-app_build.zip ' + target + '_$(date +%Y-%m-%d_%H%M).interactive');
 
     cb();
   });
@@ -125,18 +136,45 @@ gulp.task('serve', () => {
 
 gulp.task('watch', ['serve']);
 
-gulp.task('component', () => {
+gulp.task('component', ['common']);
+
+gulp.task('common', () => {
   const cap = (val) => {
     return val.charAt(0).toUpperCase() + val.slice(1);
   };
   const name = yargs.argv.name;
   const parentPath = yargs.argv.parent || '';
-  const destPath = path.join(resolveToComponents(), parentPath, name);
+  const destPath = path.join(resolveToCommon(), parentPath, name);
 
-  return gulp.src(paths.blankTemplates['component'])
+  return gulp.src(paths.blankTemplates['common'])
     .pipe(template({
       name: name,
       upCaseName: cap(name)
+    }))
+    .pipe(rename((path) => {
+      path.basename = path.basename.replace('temp', name);
+    }))
+    .pipe(gulp.dest(destPath));
+});
+
+gulp.task('page', () => {
+  const cap = (val) => {
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  };
+  const dash = (val) => {
+    return val.replace(/\W+/g, '-')
+              .replace(/([a-z\d])([A-Z])/g, '$1-$2')
+              .toLowerCase();
+  };
+  const name = yargs.argv.name;
+  const parentPath = yargs.argv.parent || '';
+  const destPath = path.join(resolveToPages(), parentPath, name);
+
+  return gulp.src(paths.blankTemplates['page'])
+    .pipe(template({
+      name: name,
+      upCaseName: cap(name),
+      dashCaseName: dash(name)
     }))
     .pipe(rename((path) => {
       path.basename = path.basename.replace('temp', name);
@@ -150,7 +188,7 @@ gulp.task('directive', () => {
   };
   const name = yargs.argv.name;
   const parentPath = yargs.argv.parent || '';
-  const destPath = path.join(resolveToComponents(), parentPath, name);
+  const destPath = path.join(resolveToDirectives(), parentPath, name);
 
   return gulp.src(paths.blankTemplates['directive'])
     .pipe(template({

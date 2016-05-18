@@ -1,6 +1,7 @@
 
 <div class="app-ready" ng-if="vm.bootstrapped">
   <div class="app viewport" id="viewport">
+    <error-handler></error-handler>
     <div ui-view></div>
   </div>
   <div class="orientation-warning" ng-if="::vm._appService.deviceType !== 'web'">
