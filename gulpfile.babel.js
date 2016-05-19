@@ -94,15 +94,17 @@ gulp.task('build', ['clean'], (cb) => {
 
 gulp.task('serve', () => {
   let mflyMiddleware = (req, res, next) => { return next(); };
-  let config = require('./webpack.serve.config');
+  let configFile = './webpack.serve.config';
 
   if (mflyProxy !== '') {
     mflyMiddleware = mfly({
       url: mflyProxy
     });
 
-    config = require('./webpack.proxy.config');
+    configFile = './webpack.proxy.config';
   }
+
+  let config = require(configFile);
 
   config.entry.app = [
     // this modules required to make HRM working
