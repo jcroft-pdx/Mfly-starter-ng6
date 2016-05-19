@@ -1,5 +1,6 @@
 import angular from 'angular';
 import <%= name %>Component from './<%= name %>.component';
+import <%= name %>Service from './<%= name %>.service';
 
 export default angular.module('<%= name %>', [
 ])
