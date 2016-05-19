@@ -2,6 +2,11 @@ export default class {
   constructor ($scope, $window, appService, utility) {
     "ngInject";
 
+    // Localize injectables.
+    this._appService = appService;
+
+    // This value halts execution of the rest of the application through a not
+    // so clever ng-if.
     this.bootstrapped = false;
 
     if (!utility.isTouch()) {
