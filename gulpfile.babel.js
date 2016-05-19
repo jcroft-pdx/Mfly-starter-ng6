@@ -117,6 +117,7 @@ gulp.task('serve', () => {
     port: process.env.PORT || 3000,
     open: 'local',
     startPath: serveOpen,
+    https: true,
     server: {baseDir: root},
     middleware: [
       webpackHotMiddleware(compiler),
