@@ -94,7 +94,7 @@ gulp.task('build', ['clean'], (cb) => {
 
 gulp.task('serve', () => {
   let mflyMiddleware = (req, res, next) => { return next(); };
-  let config = require('./webpack.dev.config');
+  let config = require('./webpack.serve.config');
 
   if (mflyProxy !== '') {
     mflyMiddleware = mfly({
